@@ -3,6 +3,7 @@ package uj.jwzp.w2.generator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import uj.jwzp.w2.parser.ProgramParameters;
 import uj.jwzp.w2.entity.Item;
 import uj.jwzp.w2.service.BufferedReaderService;
@@ -14,8 +15,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("itemGenerator")
 public class ItemGenerator {
     private final static Logger logger = LoggerFactory.getLogger(ItemGenerator.class);
+
     private RandomService randomService;
     BufferedReaderService bufferedReaderService;
 
@@ -32,26 +35,6 @@ public class ItemGenerator {
         String [] itemLine;
         List<Item> items = new ArrayList<>();
 
-//        try (BufferedReader br = bufferedReaderService.getBufferedReader(csvFileName)) {
-//            int i=0;
-//            for(;i<programParameters.getItemsCountRange().getValue0() && br.ready();i++){
-//                br.readLine();
-//            }
-//            for (;i<=programParameters.getItemsCountRange().getValue1() && br.ready();i++){
-//                line = br.readLine();
-//                itemLine = line.split(cvsSplitBy);
-//                if (isItemLineCorrect(itemLine)){
-//                    items.add(new Item(itemLine[0].replaceAll("\"", ""),
-//                            randomService.getRandomInt(programParameters.getItemsQuantityRange()),
-//                            new BigDecimal(itemLine[1])) );
-//                }
-//                else{
-//                    logger.error("incorrect line number " + i + " in csv file");
-//                }
-//            }
-//        } catch (IOException e) {
-//            logger.error(e.getMessage());
-//        }
         BufferedReader br = bufferedReaderService.getBufferedReader(csvFileName);
         int i=0;
         for(;i<programParameters.getItemsCountRange().getValue0() && br.ready();i++){
@@ -66,8 +49,8 @@ public class ItemGenerator {
                         new BigDecimal(itemLine[1])) );
             }
             else{
+                logger.error("incorrect line number " + i + " in csv file");
                 throw new Exception("incorrect line number " + i + " in csv file");
-//                logger.error("incorrect line number " + i + " in csv file");
             }
         }
         return items;

@@ -21,6 +21,19 @@ public class Item {
         return price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "name='" + name + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

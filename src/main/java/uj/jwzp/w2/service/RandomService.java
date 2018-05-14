@@ -1,12 +1,14 @@
 package uj.jwzp.w2.service;
 
 import org.javatuples.Pair;
+import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Service("randomService")
 public class RandomService {
     public int getRandomInt (Pair<Integer, Integer> range){
         return ThreadLocalRandom.current().nextInt(range.getValue0(), range.getValue1() + 1);

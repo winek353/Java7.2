@@ -2,6 +2,7 @@ package uj.jwzp.w2;
 
 import org.javatuples.Pair;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -33,14 +34,18 @@ public class TransactionGeneratorTest {
     RandomService randomService;
 
     @Mock
-    BufferedReaderService bufferedReaderService;
+    ItemGenerator itemGenerator;
+
+    ProgramParameters programParameters;
+
+    List<Item> items;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Test
-    public void correctValues () throws Exception {
-        ProgramParameters programParameters = new ProgramParameters(
+    @Before
+    public void before(){
+        programParameters = new ProgramParameters(
                 new Pair<Integer, Integer>(1, 20),
                 new Pair<String, String>("2018-03-08T00:00:00.000-0100", "2018-03-08T23:59:59.999-0100"),
                 "items.csv",
@@ -50,40 +55,37 @@ public class TransactionGeneratorTest {
                 System.getProperty("user.dir")
         );
 
+        items = new ArrayList<>();
+        items.add(new Item("mleko 3% 1l", 1,
+                new BigDecimal("2.30")));
+        items.add(new Item("bułeczka", 1,
+                new BigDecimal("1.20")));
+    }
+
+    @Test
+    public void correctValues () throws Exception {
         Mockito.when(randomService.getRandomInt(Mockito.any())).thenReturn(1);
         Mockito.when(randomService.getRandomTimeTimestamp(programParameters.getDateRange()))
                 .thenReturn("2018-03-08T00:00:00.000-0100");
 
-        Mockito.when(bufferedReaderService.getBufferedReader(Mockito.any()))
-                .thenReturn( new BufferedReader(new StringReader("name,price\n" +
-                        "\"mleko 3% 1l\",2.30\n" +
-                        "\"bułeczka\",1.20")));
-
-        ItemGenerator itemGenerator = new ItemGenerator(randomService, bufferedReaderService);
-
-        List<Item> expectedItems = new ArrayList<>();
-        expectedItems.add(new Item("mleko 3% 1l", randomService
-                .getRandomInt(programParameters.getItemsQuantityRange()),
-                new BigDecimal("2.30")));
-        expectedItems.add(new Item("bułeczka", randomService
-                .getRandomInt(programParameters.getItemsQuantityRange()),
-                new BigDecimal("1.20")));
+        Mockito.when(itemGenerator.generateItems(programParameters)).thenReturn(items);
 
         TransactionGenerator transactionGenerator = new TransactionGenerator(randomService, itemGenerator);
         List<Transaction> transactionList = transactionGenerator.generateTrasactions(programParameters);
+
+        System.out.println(transactionList.get(0).getSum());
 
         for (Transaction transaction : transactionList) {
             Assert.assertEquals(transaction.getTimestamp(),
                     randomService.getRandomTimeTimestamp(programParameters.getDateRange()));
             Assert.assertEquals(transaction.getSum(), new BigDecimal("3.50"));
 
-            for (Item expectedItem : expectedItems) {
+            for (Item expectedItem : items) {
                 assertThat(transaction.getItems(), hasItems(
                         expectedItem
                 ));
             }
         }
-
     }
 
 }

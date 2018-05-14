@@ -34,7 +34,8 @@
     </logger>
 
     <root level="debug">
-        <appender-ref ref="consoleAppender" />
+        <!--<appender-ref ref="consoleAppender" />-->
         <appender-ref ref="FILE" />
     </root>
+
 </configuration>

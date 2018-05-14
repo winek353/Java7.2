@@ -2,6 +2,7 @@ package uj.jwzp.w2.entity;
 
 import uj.jwzp.w2.entity.Item;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 import java.util.List;
 

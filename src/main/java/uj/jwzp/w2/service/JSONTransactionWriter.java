@@ -4,28 +4,26 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import uj.jwzp.w2.entity.Transaction;
 import uj.jwzp.w2.generator.ItemGenerator;
-import uj.jwzp.w2.generator.TransactionGenerator;
-import uj.jwzp.w2.parser.ProgramParameters;
 
 import java.io.*;
 import java.text.ParseException;
 import java.util.*;
 
-public class TransactionToJSONService {
+@Service("jsonTransactionWriter")
+public class JSONTransactionWriter implements ITransactionWriter {
     private final static Logger logger = LoggerFactory.getLogger(ItemGenerator.class);
 
-
-    public void createJSON( List<Transaction> transactionList,
-                                      ProgramParameters programParameters) throws ParseException {
+    @Override
+    public void writeToFile(List<Transaction> transactionList, String outDirectory) throws ParseException {
         logger.trace("creating JSON file");
 
-        String outDirectory;
-        if(programParameters.getOutDir().equals(""))
+        if(outDirectory.equals(""))
             outDirectory = "transaction.json";
         else
-            outDirectory = programParameters.getOutDir() + "\\transaction.json";
+            outDirectory = outDirectory + "\\transaction.json";
 
         try (Writer writer = new FileWriter(new File(outDirectory) )) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -35,5 +33,4 @@ public class TransactionToJSONService {
         }
         logger.info("JSON file created successfully");
     }
-
 }

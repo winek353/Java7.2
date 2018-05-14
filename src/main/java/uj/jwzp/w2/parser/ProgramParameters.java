@@ -12,6 +12,20 @@ public class ProgramParameters {
     Pair<Integer, Integer> itemsQuantityRange;
     Integer eventsCount;
     String outDir;
+    String format;
+
+    public ProgramParameters(Pair<Integer, Integer> customerIdsRange, Pair<String, String> dateRange,
+                             String itemsFileName, Pair<Integer, Integer> itemsCountRange, Pair<Integer,
+            Integer> itemsQuantityRange, Integer eventsCount, String outDir, String format) {
+        this.customerIdsRange = customerIdsRange;
+        this.dateRange = dateRange;
+        this.itemsFileName = itemsFileName;
+        this.itemsCountRange = itemsCountRange;
+        this.itemsQuantityRange = itemsQuantityRange;
+        this.eventsCount = eventsCount;
+        this.outDir = outDir;
+        this.format = format;
+    }
 
     public ProgramParameters(Pair<Integer, Integer> customerIdsRange, Pair<String, String> dateRange,
                              String itemsFileName, Pair<Integer, Integer> itemsCountRange,
@@ -51,6 +65,10 @@ public class ProgramParameters {
 
     public String getOutDir() {
         return outDir;
+    }
+
+    public String getFormat() {
+        return format;
     }
 
     @Override

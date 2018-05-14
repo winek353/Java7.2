@@ -2,10 +2,12 @@ package uj.jwzp.w2.generator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import uj.jwzp.w2.parser.CLIParser;
 import uj.jwzp.w2.parser.ProgramParameters;
 import uj.jwzp.w2.entity.Item;
 import uj.jwzp.w2.entity.Transaction;
+import uj.jwzp.w2.service.BufferedReaderService;
 import uj.jwzp.w2.service.RandomService;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("transactionGenerator")
 public class TransactionGenerator {
     private final static Logger logger = LoggerFactory.getLogger(TransactionGenerator.class);
 
@@ -43,6 +46,7 @@ public class TransactionGenerator {
         BigDecimal sum = BigDecimal.valueOf(0);
         for (Item item: transaction.getItems() ) {
             sum = sum.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
+            System.out.println("suma = " + item);
         }
         logger.debug("computed sum = " + sum + " transaction id = " + transaction.getId());
         return sum;

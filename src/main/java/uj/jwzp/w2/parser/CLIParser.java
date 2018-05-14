@@ -5,6 +5,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.javatuples.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,7 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Service("cliParser")
 public class CLIParser {
     private final static Logger logger = LoggerFactory.getLogger(CLIParser.class);
 
@@ -33,9 +34,10 @@ public class CLIParser {
         Pair<Integer, Integer> itemsQuantityRange=  getPair(map.get("itemsQuantity"));
         Integer eventsCount= Integer.valueOf(map.get("eventsCount"));
         String outDir= map.get("outDir");
+        String format= map.get("format");
 
         ProgramParameters programParameters =  new ProgramParameters(customerIdsRange, dateRange, itemsFileName, itemsCountRange,
-                itemsQuantityRange, eventsCount, outDir);
+                itemsQuantityRange, eventsCount, outDir, format);
         logger.info("parsing program parameters successful");
         logger.debug("parsed program parameters : " + programParameters);
         return programParameters;
@@ -91,6 +93,7 @@ public class CLIParser {
         options.addOption("itemsQuantity", true, " zakres z jakiego będzie generowana ilość kupionych produktów danego typu (pole \"quantity\")");
         options.addOption("eventsCount", true, " ilość transakcji (pojedynczych plików) do wygenerowania");
         options.addOption("outDir", true, "  katalog, do którego mają być zapisane pliki");
+        options.addOption("format", true, "  format zapisania pliku");
 
         CommandLineParser parser = new DefaultParser();
         Map<String, String> map = new HashMap<>();
@@ -146,6 +149,12 @@ public class CLIParser {
             }
             else {
                 map.put("outDir", System.getProperty("user.dir"));
+            }
+            if(cmd.hasOption("format")) {
+                map.put("format",(String) cmd.getParsedOptionValue("format"));
+            }
+            else {
+                map.put("format", "json");
             }
         return map;
     }
