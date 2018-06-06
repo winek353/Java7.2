@@ -46,7 +46,6 @@ public class TransactionGenerator {
         BigDecimal sum = BigDecimal.valueOf(0);
         for (Item item: transaction.getItems() ) {
             sum = sum.add(item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())));
-            System.out.println("suma = " + item);
         }
         logger.debug("computed sum = " + sum + " transaction id = " + transaction.getId());
         return sum;

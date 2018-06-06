@@ -1,15 +1,29 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 plugins {
     id "java"
     id "groovy"
     id "com.palantir.jacoco-coverage" version "0.4.0"
     id "maven-publish"
     id "jacoco"
-    id "com.github.johnrengelman.shadow" version "2.0.2"
     id "io.franzbecker.gradle-lombok" version "1.11"
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+//    id 'org.springframework.boot' version '2.0.2.RELEASE'
 }
 
 group 'uj.jwzp.w2'
-version '1.0-SNAPSHOT'
+//version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -22,6 +36,15 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
         }
+    }
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "uj.jwzp.w2.launcher.Main"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
@@ -71,6 +94,8 @@ dependencies {
     compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.4'
 
 
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 //    compile group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
 //    compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.10.0'
 

@@ -15,43 +15,43 @@ import uj.jwzp.w2.service.YamlTransactionWriter;
 
 
 public class Spring {
-    private final static Logger logger = LoggerFactory.getLogger(Spring.class);
-
-    static ApplicationContext ctx = new AnnotationConfigApplicationContext("uj.jwzp.w2");
-
-    public static ITransactionWriter chooseTransactionWriterFormat(String format){
-        if(format.equals("xml"))
-            return (ITransactionWriter) ctx.getBean("xmlTransactionWriter");
-        else if(format.equals("yaml"))
-            return (ITransactionWriter) ctx.getBean("yamlTransactionWriter");
-        else
-            return (ITransactionWriter) ctx.getBean("jsonTransactionWriter");
-    }
-
-    public static void main(String[] args) {
-        CLIParser cliParser = (CLIParser) ctx.getBean("cliParser");
-        TransactionGenerator transactionGenerator = (TransactionGenerator) ctx.getBean("transactionGenerator");
-
-        try {
-            ProgramParameters programParameters = cliParser.parseProgramParameters(args);
-            ITransactionWriter iTransactionWriter = chooseTransactionWriterFormat(programParameters.getFormat());
-
-            iTransactionWriter.writeToFile(transactionGenerator.generateTrasactions(programParameters),
-                    programParameters.getOutDir());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-//        JSONTransactionWriter transactionToJsonService = (JSONTransactionWriter) ctx.getBean("transactionToJsonService");
+//    private final static Logger logger = LoggerFactory.getLogger(Spring.class);
 //
-//        ProgramParameters programParameters = null;
+//    static ApplicationContext ctx = new AnnotationConfigApplicationContext("uj.jwzp.w2");
+//
+//    public static ITransactionWriter chooseTransactionWriterFormat(String format){
+//        if(format.equals("xml"))
+//            return (ITransactionWriter) ctx.getBean("xmlTransactionWriter");
+//        else if(format.equals("yaml"))
+//            return (ITransactionWriter) ctx.getBean("yamlTransactionWriter");
+//        else
+//            return (ITransactionWriter) ctx.getBean("jsonTransactionWriter");
+//    }
+//
+//    public static void main(String[] args) {
+//        CLIParser cliParser = (CLIParser) ctx.getBean("cliParser");
+//        TransactionGenerator transactionGenerator = (TransactionGenerator) ctx.getBean("transactionGenerator");
+//
 //        try {
-//            programParameters = cliParser.parseProgramParameters(args);
-//            transactionToJsonService.createJSON(transactionGenerator.generateTrasactions(programParameters),
-//                    programParameters);
+//            ProgramParameters programParameters = cliParser.parseProgramParameters(args);
+//            ITransactionWriter iTransactionWriter = chooseTransactionWriterFormat(programParameters.getFormat());
 //
+//            iTransactionWriter.writeToFile(transactionGenerator.generateTrasactions(programParameters),
+//                    programParameters.getOutDir());
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-    }
+//
+////        JSONTransactionWriter transactionToJsonService = (JSONTransactionWriter) ctx.getBean("transactionToJsonService");
+////
+////        ProgramParameters programParameters = null;
+////        try {
+////            programParameters = cliParser.parseProgramParameters(args);
+////            transactionToJsonService.createJSON(transactionGenerator.generateTrasactions(programParameters),
+////                    programParameters);
+////
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        }
+//    }
 }
