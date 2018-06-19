@@ -14,6 +14,10 @@ public class ProgramParameters {
     String outDir;
     String format;
 
+    String broker;
+    String queue;
+    String topic;
+
     public ProgramParameters(Pair<Integer, Integer> customerIdsRange, Pair<String, String> dateRange,
                              String itemsFileName, Pair<Integer, Integer> itemsCountRange, Pair<Integer,
             Integer> itemsQuantityRange, Integer eventsCount, String outDir, String format) {
@@ -37,6 +41,25 @@ public class ProgramParameters {
         this.itemsQuantityRange = itemsQuantityRange;
         this.eventsCount = eventsCount;
         this.outDir = outDir;
+    }
+
+    public ProgramParameters(Pair<Integer, Integer> customerIdsRange,
+                             Pair<String, String> dateRange, String itemsFileName,
+                             Pair<Integer, Integer> itemsCountRange,
+                             Pair<Integer, Integer> itemsQuantityRange,
+                             Integer eventsCount, String outDir, String format,
+                             String broker, String queue, String topic) {
+        this.customerIdsRange = customerIdsRange;
+        this.dateRange = dateRange;
+        this.itemsFileName = itemsFileName;
+        this.itemsCountRange = itemsCountRange;
+        this.itemsQuantityRange = itemsQuantityRange;
+        this.eventsCount = eventsCount;
+        this.outDir = outDir;
+        this.format = format;
+        this.broker = broker;
+        this.queue = queue;
+        this.topic = topic;
     }
 
     public Pair<Integer, Integer> getCustomerIdsRange() {
@@ -71,6 +94,19 @@ public class ProgramParameters {
         return format;
     }
 
+
+    public String getBroker() {
+        return broker;
+    }
+
+    public String getQueue() {
+        return queue;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
     @Override
     public String toString() {
         return "ProgramParameters{" +
@@ -81,6 +117,10 @@ public class ProgramParameters {
                 ", itemsQuantityRange=" + itemsQuantityRange +
                 ", eventsCount=" + eventsCount +
                 ", outDir='" + outDir + '\'' +
+                ", format='" + format + '\'' +
+                ", broker='" + broker + '\'' +
+                ", queue='" + queue + '\'' +
+                ", topic='" + topic + '\'' +
                 '}';
     }
 }

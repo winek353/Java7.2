@@ -29,7 +29,7 @@ public class Main {
         File file = new File("/tmp/generator.properties");
 
         List<String> result = new ArrayList<>();
-        BufferedReader br = null;
+        BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(file));
             String [] line;
@@ -48,13 +48,14 @@ public class Main {
 
 
     public static void main(String[] args) {
-        //-customerIds 1:20 -dateRange 2018-03-08T00:00:00.000-0100:2018-03-08T23:59:59.999-0100  itemsFile items.csv  -itemsCount 5:15 itemsQuantity 1:30 -eventsCount 1000 -outDir ./output -format xml
-        args = propertiesToArray();
+        //-customerIds 1:20 -dateRange 2018-03-08T00:00:00.000-0100:2018-03-08T23:59:59.999-0100  -itemsFile items.csv  -itemsCount 5:15 itemsQuantity 1:30 -eventsCount 1000 -outDir ./output -format xml
+//        args = propertiesToArray();
         CLIParser cliParser = new CLIParser();
 
         ProgramParameters programParameters = null;
         try {
             programParameters = cliParser.parseProgramParameters(args);
+            System.out.println(programParameters);
             TransactionGenerator transactionGenerator = new TransactionGenerator(new RandomService(),
                     new ItemGenerator(new RandomService(), new BufferedReaderService()));
 

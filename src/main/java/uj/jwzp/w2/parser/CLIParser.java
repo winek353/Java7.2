@@ -36,8 +36,12 @@ public class CLIParser {
         String outDir= map.get("outDir");
         String format= map.get("format");
 
+        String broker= map.get("broker");
+        String queue= map.get("queue");
+        String topic= map.get("topic");
+
         ProgramParameters programParameters =  new ProgramParameters(customerIdsRange, dateRange, itemsFileName, itemsCountRange,
-                itemsQuantityRange, eventsCount, outDir, format);
+                itemsQuantityRange, eventsCount, outDir, format, broker, queue, topic);
         logger.info("parsing program parameters successful");
         logger.debug("parsed program parameters : " + programParameters);
         return programParameters;
@@ -94,6 +98,10 @@ public class CLIParser {
         options.addOption("eventsCount", true, " ilość transakcji (pojedynczych plików) do wygenerowania");
         options.addOption("outDir", true, "  katalog, do którego mają być zapisane pliki");
         options.addOption("format", true, "  format zapisania pliku");
+
+        options.addOption("broker", true, "  tcp://localhost:616161");
+        options.addOption("queue", true, "  nazwa-kolejki");
+        options.addOption("topic", true, "  nazwa-tematu");
 
         CommandLineParser parser = new DefaultParser();
         Map<String, String> map = new HashMap<>();
@@ -155,6 +163,24 @@ public class CLIParser {
             }
             else {
                 map.put("format", "json");
+            }
+            if(cmd.hasOption("broker")) {//zad7
+                map.put("broker",(String) cmd.getParsedOptionValue("broker"));
+            }
+            else {
+                map.put("broker", "tcp://localhost:616161 todo");
+            }
+            if(cmd.hasOption("queue")) {
+                map.put("queue",(String) cmd.getParsedOptionValue("queue"));
+            }
+            else {
+                map.put("queue", "todo");
+            }
+            if(cmd.hasOption("topic")) {
+                map.put("topic",(String) cmd.getParsedOptionValue("topic"));
+            }
+            else {
+                map.put("topic ", "todo");
             }
         return map;
     }

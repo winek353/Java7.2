@@ -3,10 +3,11 @@ package uj.jwzp.w2.entity;
 import uj.jwzp.w2.entity.Item;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Transaction {
+public class Transaction implements Serializable{
     int id;
     String timestamp;
     int customer_id;
@@ -38,5 +39,14 @@ public class Transaction {
 
     public void setSum(BigDecimal sum) {
         this.sum = sum;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", timestamp='" + timestamp + '\'' +
+                ", customer_id=" + customer_id +
+                '}';
     }
 }

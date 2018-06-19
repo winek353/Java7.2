@@ -29,7 +29,7 @@ public class ItemGenerator {
 
 
     public List<Item> generateItems(ProgramParameters programParameters) throws Exception {
-        String csvFileName = "/tmp/" + programParameters.getItemsFileName();// "src\\main\\resources\\"+storage items.csv
+        String csvFileName = "src\\main\\resources\\"+programParameters.getItemsFileName();//"/tmp/" + programParameters.getItemsFileName();// "src\\main\\resources\\"+storage items.csv
         String line;
         String cvsSplitBy = ",";
         String [] itemLine;
